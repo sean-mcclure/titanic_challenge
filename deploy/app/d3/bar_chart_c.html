@@ -37,9 +37,11 @@
             "font": "Ubuntu"
         })
 
+        function draw_chart_c(scores) {
+
 		var categories= ['USER', 'AI'];
 
-		var dollars = [209,190];
+		var dollars = scores;
 
 		var colors = ['#0082ca','#0094ff'];
 
@@ -131,8 +133,9 @@
 							.enter()
 							.append('text')
 							.attr({'x':function(d) {return xscale(d)-200; },'y':function(d,i){ return yscale(i)+35; }})
-							.text(function(d, i){ if(i == 0) { return " USER HAS " + d + " POINTS"; } else {return " AI HAS " + d + " POINTS"; }}).style({'fill':'#fff','font-size':'18px'});
+							//.text(function(d, i){ if(i == 0) { return " USER HAS " + d + " POINTS"; } else {return " AI HAS " + d + " POINTS"; }}).style({'fill':'#fff','font-size':'18px'});
 
+}
 
 	</script>
 </body>

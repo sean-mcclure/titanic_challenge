@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dsnap - Charts</title>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src='http://code.jquery.com/jquery-3.3.1.min.js'></script>
+    <script src='http://worldofdatascience.com/kedion.min.js'></script>
+	<style>
+	#xaxis .domain {
+		fill:none;
+		stroke:#000;
+	}
+
+	#xaxis text {
+		font-size: 22px;
+	}
+	#yaxis text {
+		font-size: 0px;
+	}
+	body {
+        font-family : "Ubuntu";
+        color : "white";
+        }
+
+        .bar {
+            fill: orangered;
+        }
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+	</div>
+
+	<script>
+
+	    load_fonts({
+            "font": "Ubuntu"
+        })
+
+        function draw_chart_c(scores) {
+
+		var categories= ['USER', 'AI'];
+
+		var dollars = scores;
+
+		var colors = ['#0082ca','#0094ff'];
+
+		var grid = d3.range(25).map(function(i){
+			return {'x1':0,'y1':0,'x2':0,'y2':0};
+		});
+
+		var tickVals = grid.map(function(d,i){
+			if(i>0){ return i*10; }
+			else if(i===0){ return "100";}
+		});
+
+		var xscale = d3.scale.linear()
+						.domain([10,250])
+						.range([0,1000]);
+
+		var yscale = d3.scale.linear()
+						.domain([0,categories.length])
+						.range([0,250]);
+
+		var colorScale = d3.scale.quantize()
+						.domain([0,categories.length])
+						.range(colors);
+
+		var canvas = d3.select('#wrapper')
+						.append('svg')
+						.attr({'width':1200,'height':250});
+
+		var grids = canvas.append('g')
+						  .attr('id','grid')
+						  .attr('transform','translate(150,10)')
+						  .selectAll('line')
+						  .data(grid)
+						  .enter()
+						  .append('line')
+						  .attr({'x1':function(d,i){ return i*30; },
+								 'y1':function(d){ return d.y1; },
+								 'x2':function(d,i){ return i*30; },
+								 'y2':function(d){ return d.y2; },
+							})
+						  .style({'stroke':'#adadad','stroke-width':'1px'});
+
+		var	xAxis = d3.svg.axis();
+			xAxis
+				.orient('bottom')
+				.scale(xscale)
+				.tickValues(tickVals);
+
+		var	yAxis = d3.svg.axis();
+			yAxis
+				.orient('left')
+				.scale(yscale)
+				.tickSize(2)
+				.tickFormat(function(d,i){ return categories[i]; })
+				.tickValues(d3.range(17));
+
+		var y_xis = canvas.append('g')
+						  .attr("transform", "translate(150,0)")
+						  .attr('id','yaxis')
+						  .call(yAxis);
+
+		var x_xis = canvas.append('g')
+						  .attr("transform", "translate(150,480)")
+						  .attr('id','xaxis')
+						  .call(xAxis);
+
+		var chart = canvas.append('g')
+							.attr("transform", "translate(150,0)")
+							.attr('id','bars')
+							.selectAll('rect')
+							.data(dollars)
+							.enter()
+							.append('rect')
+							.attr('height',100)
+							.attr({'x':0,'y':function(d,i){ return yscale(i)+19; }})
+							.style('fill',function(d,i){ if(i==0) { return("rgba(255, 85, 21, 0.75)") } else { return("rgba(159, 232, 38, 0.75)") } })
+							.attr('width',function(d){ return 0; });
+
+
+		var transit = d3.select("svg").selectAll("rect")
+						    .data(dollars)
+						    .transition()
+						    .duration(1000)
+						    .attr("width", function(d) {return xscale(d); });
+
+		var transitext = d3.select('#bars')
+							.selectAll('text')
+							.data(dollars)
+							.enter()
+							.append('text')
+							.attr({'x':function(d) {return xscale(d)-200; },'y':function(d,i){ return yscale(i)+35; }})
+							//.text(function(d, i){ if(i == 0) { return " USER HAS " + d + " POINTS"; } else {return " AI HAS " + d + " POINTS"; }}).style({'fill':'#fff','font-size':'18px'});
+
+}
+
+	</script>
+</body>
+</html>
+
+

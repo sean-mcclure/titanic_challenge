@@ -152,13 +152,18 @@ style_layout('section_1_visuals', 1, {
 add_dropdown('section_1_visuals_cell', 1, {
     "this_class" : "select_passenger",
     "title" : "select passenger...",
-    "options" : ['','','']
+    "options" : ['bar_data_a','bar_data_b','bar_data_c', 'bar_data_d']
 })
 
 style_dropdown('select_passenger', 1, {
     "width" : "200px"
 })
 
+add_event('select_passenger', 1, {
+    "type" : "change",
+    "function" : "$('.bar_chart_frame')[0].contentWindow.draw_chart(eval(this.value)); toggle_functions('smile_one()', 'smile_two()')"
+})
+/*
 add_text('section_1_visuals_cell', 2, {
     "this_class" : "profile_viz_title",
     "text" : "PASSENGER PROFILE"
@@ -168,13 +173,15 @@ style_text('profile_viz_title', 1, {
     "color" : "white",
     "font-size" : "20px"
 })
+*/
 
 add_iframe("section_1_visuals_cell", 2, {
 	"this_class" : "bar_chart_frame",
 	"source" : "d3/bar_chart.html"
 })
 style_iframe('bar_chart_frame', 1, {
-    "width" : "100%"
+    "width" : "100%",
+    "margin-left" : "50px"
 })
 $(".bar_chart_frame")[0].setAttribute("scrolling", "no");
 
@@ -184,8 +191,246 @@ add_image('section_1_visuals_cell', 3, {
 })
 
 style_image('show_smiles', 1, {
-    "width" : "160px"
+    "width" : "180px"
 })
+
+// *********** SECTION 2
+
+clone_layout("sections", 2, {
+    "copy_class" : "hold_section_title",
+    "copy_instance" : 1,
+    "this_class" : "hold_section_title_b",
+    "row_class" : "hold_section_title_b_row",
+    "cell_class" : "hold_section_title_b_cell"
+    })
+
+remove_element('section_title', 2)
+
+add_text('hold_section_title_b_cell', 1, {
+    "this_class" : "section_title",
+    "text" : "PROFILE TESTER"
+})
+
+clone_layout("sections", 2, {
+    "copy_class" : "section_1_visuals",
+    "copy_instance" : 1,
+    "this_class" : "section_2_visuals",
+    "row_class" : "section_2_visuals_row",
+    "cell_class" : "section_2_visuals_cell"
+    })
+
+style_layout('section_2_visuals', 1, {
+    "border" : 0
+})
+
+delay_event({
+"function" : `
+style_layout('section_2_visuals_cell', 1, {
+    "valign" : "center",
+    "halign" : "center"
+})
+`
+})
+
+add_event('option_button', 4, {
+    "type" : "click",
+    "function" : "pop_viz_modal()"
+})
+add_event('option_button', 5, {
+    "type" : "click",
+    "function" : "pop_viz_modal()"
+})
+add_event('option_button', 6, {
+    "type" : "click",
+    "function" : "pop_viz_modal()"
+})
+
+
+remove_element('select_passenger', 2)
+
+add_dropdown('section_2_visuals_cell', 1, {
+    "this_class" : "select_random_passenger",
+    "title" : "select random passenger...",
+    "options" : ['bar_data_a','bar_data_b','bar_data_c', 'bar_data_d']
+})
+
+style_dropdown('select_random_passenger', 1, {
+    "width" : "220px",
+    "background-color" : "white"
+})
+
+add_event('select_random_passenger', 1, {
+    "type" : "change",
+    "function" : "$('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(eval(this.value))"
+})
+
+remove_element('bar_chart_frame', 2)
+
+add_iframe("section_2_visuals_cell", 2, {
+	"this_class" : "bar_chart_frame_b",
+	"source" : "d3/bar_chart_b.html"
+})
+style_iframe('bar_chart_frame_b', 1, {
+    "width" : "100%",
+    "margin-left" : "50px"
+})
+$(".bar_chart_frame_b")[0].setAttribute("scrolling", "no");
+
+
+remove_element('show_smiles', 2)
+
+style_layout('section_2_visuals_cell', 3, {
+    "halign" : "center"
+})
+
+add_layout('section_2_visuals_cell', 3, {
+    "this_class" : "hold_make_choice_buttons",
+    "row_class" : "hold_make_choice_buttons_row",
+    "cell_class" : "hold_make_choice_buttons_cell",
+    "number_of_columns" : 1,
+    "number_of_rows" : 5
+})
+
+style_layout('hold_make_choice_buttons', 1, {
+    "height" : "200px",
+    "width" : "200px",
+    "margin-top" : "20px",
+    "border" : 0
+})
+
+add_text('hold_make_choice_buttons_cell', 1, {
+    "this_class" : "make_choice_title",
+    "text" : "MAKE YOUR CHOICE"
+})
+
+style_text('make_choice_title', 1, {
+    "color" : "white",
+    "font-size" : "20px",
+    "margin-top" : "5px",
+    "margin-bottom" : "5px"
+})
+
+add_button('hold_make_choice_buttons_cell', 2, {
+    "this_class" : "hold_make_choice_button",
+    "text" : "SURVIVES"
+})
+
+add_button('hold_make_choice_buttons_cell', 3, {
+    "this_class" : "hold_make_choice_button",
+    "text" : "DOES NOT SURVIVE"
+})
+add_button('hold_make_choice_buttons_cell', 4, {
+    "this_class" : "hold_make_choice_button",
+    "text" : "ASK AI"
+})
+add_button('hold_make_choice_buttons_cell', 5, {
+    "this_class" : "hold_make_choice_button",
+    "text" : "CORRECT ANSWER"
+})
+
+global_choice_clicked=''
+
+delay_event({
+"function" : `
+style_button('hold_make_choice_button', 1, {
+"background" : "rgba(145, 255, 94, 0.69)",
+"margin-bottom" : "8px",
+"width" : "180px"
+})
+add_event('hold_make_choice_button', 1, {
+"type" : "click",
+"function" : "animate_element('hold_make_choice_button', 1, {'type' : 'spin'}); remove_element('showing_user_choices', 1); add_text('show_choices_layout_cells', 1, {'this_class' : 'showing_user_choices', 'text' : 'SURVIVED'}); style_text('showing_user_choices', 1, {'color' : 'rgb(255, 253, 5)'}); global_choice_clicked='survived'"
+})
+style_button('hold_make_choice_button', 2, {
+"background" : "rgba(255, 24, 78, 0.97)",
+"margin-bottom" : "10px",
+"width" : "180px"
+})
+add_event('hold_make_choice_button', 2, {
+"type" : "click",
+"function" : "animate_element('hold_make_choice_button', 2, {'type' : 'hinge'}); remove_element('showing_user_choices', 1); add_text('show_choices_layout_cells', 1, {'this_class' : 'showing_user_choices', 'text' : 'DOES NOT SURVIVE'}); style_text('showing_user_choices', 1, {'color' : 'rgb(255, 253, 5)'}); global_choice_clicked='not survived'"
+})
+style_button('hold_make_choice_button', 3, {
+"background" : "rgba(47, 206, 255, 0.88)",
+"margin-top" : "10px",
+"margin-bottom" : "10px",
+"width" : "180px"
+})
+add_event('hold_make_choice_button', 3, {
+"type" : "click",
+"function" : "make_prediction()"
+})
+style_button('hold_make_choice_button', 4, {
+"width" : "180px"
+})
+add_event('hold_make_choice_button', 4, {
+"type" : "click",
+"function" : "animate_element('hold_make_choice_button', 4, {'type' : 'rubberBand'}); get_answer()"
+})
+style_layout('hold_make_choice_buttons_cell', 1, {
+"background" : "grey"
+})
+style_layout('hold_make_choice_buttons_cell', 2, {
+"background" : "grey"
+})
+style_layout('hold_make_choice_buttons_cell', 3, {
+"background" : "grey"
+})
+`
+})
+
+add_layout('sections', 2, {
+    "this_class": "show_choices_layout",
+    "cell_class": "show_choices_layout_cells",
+    "row_class": "show_choices_layout_rows",
+    "number_of_rows": 1,
+    "number_of_columns": 3
+})
+
+style_layout('show_choices_layout', 1, {
+    "height": "60px",
+    "table-layout": "fixed",
+    "border": 2
+})
+
+all_style_layout('show_choices_layout_cells', {
+    "halign" : "center"
+})
+
+
+add_text('show_choices_layout_cells', 1, {
+"this_class" : "choices_text",
+"text" : "USER CHOICE"
+})
+
+add_text('show_choices_layout_cells', 2, {
+"this_class" : "choices_text",
+"text" : "AI CHOICE"
+})
+
+add_text('show_choices_layout_cells', 3, {
+"this_class" : "choices_text",
+"text" : "CORRECT ANSWER"
+})
+
+// *********** SECTION 3
+
+add_text('sections', 3, {
+    "this_class" : "section_title",
+    "text" : "SCOREBOARD"
+})
+
+add_iframe("sections", 3, {
+	"this_class" : "bar_chart_frame_c",
+	"source" : "d3/bar_chart_c.html"
+})
+style_iframe('bar_chart_frame_c', 1, {
+    "width" : "1000px",
+    "height" : "300px"
+})
+
+$(".bar_chart_frame_c")[0].setAttribute("scrolling", "no");
+
 
 // *********** ALL_ STYLES
 all_style_text('section_title', {
@@ -201,9 +446,47 @@ all_style_button('option_button', {
 all_style_layout("section_1_visuals_cell", {
     "valign" : "top"
 })
+all_style_button('hold_make_choice_button', {
+    "background" : "orangered",
+    "width" : "80%"
+})
+all_style_layout("hold_make_choice_buttons_cell", {
+    "halign" : "center"
+})
+all_style_text('choices_text', {
+    "color" : "white",
+    "font-size" : "18px"
+})
 
 // ******* PRECEDENCE STYLES
 style_layout('section_1_visuals_cell', 3, {
     "halign" : "center",
     "valign" : "center"
 })
+
+// *********** UTILITY FUNCTIONS
+function smile_one() {
+    $('.show_smiles').attr('src', 'img/smile_1.png')
+    }
+
+function smile_two() {
+    $('.show_smiles').attr('src', 'img/smile_2.png')
+    }
+
+function make_prediction() {
+    if(global_choice_clicked !== '') {
+    animate_element('hold_make_choice_button', 3, {'type' : 'lightSpeedOut'})
+    remove_element('ai_choice', 1);
+    add_text('show_choices_layout_cells', 2, {'this_class' : 'ai_choice', 'text' : '???'});
+    style_text('ai_choice', 1, {'color' : 'rgb(255, 253, 5)'})
+    } else {
+    alert('make a choice first')
+    }
+}
+function get_answer() {
+    global_choice_clicked = ''
+    remove_element('correct_answer', 1);
+    add_text('show_choices_layout_cells', 3, {'this_class' : 'correct_answer', 'text' : '???'});
+    style_text('correct_answer', 1, {'color' : 'rgb(255, 253, 5)'})
+    $('.bar_chart_frame_c')[0].contentWindow.draw_chart_c(eval('all_scores[Math.floor(Math.random() * all_scores.length)]'))
+}

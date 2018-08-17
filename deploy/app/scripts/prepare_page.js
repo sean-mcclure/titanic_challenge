@@ -100,7 +100,7 @@ add_layout('hold_section_title_cell', 2, {
     "this_class" : "hold_option_buttons",
     "row_class" : "hold_option_buttons_row",
     "cell_class" : "hold_option_buttons_cell",
-    "number_of_columns" : 3,
+    "number_of_columns" : 4,
     "number_of_rows" : 1
 })
 
@@ -111,6 +111,33 @@ style_layout('hold_option_buttons', 1, {
 })
 
 add_button('hold_option_buttons_cell', 1, {
+    "this_class" : "select_passenger",
+    "text" : "SELECT RANDOM PASSENGER"
+})
+
+style_button('select_passenger', 1, {
+    "width" : "auto",
+    "background" : "ivory",
+    "color" : "black",
+    "font-weight" : "bold"
+})
+
+add_event('select_passenger', 1, {
+    "type" : "click",
+    "function" : `
+        fetch_random_passenger();
+        setTimeout(function() {
+        $('.bar_chart_frame')[0].contentWindow.draw_chart(random_passenger_data);
+        toggle_functions('smile_one()', 'smile_two()');
+        show_title();
+        show_sex();
+        show_fare();
+        }, 500)
+
+        `
+})
+
+add_button('hold_option_buttons_cell', 2, {
     "this_class" : "option_button",
     "text" : "VISUAL 1"
 })
@@ -118,7 +145,7 @@ add_event('option_button', 1, {
     "type" : "click",
     "function" : "pop_viz_modal()"
 })
-add_button('hold_option_buttons_cell', 2, {
+add_button('hold_option_buttons_cell', 3, {
     "this_class" : "option_button",
     "text" : "VISUAL 2"
 })
@@ -126,7 +153,7 @@ add_event('option_button', 2, {
     "type" : "click",
     "function" : "pop_viz_modal()"
 })
-add_button('hold_option_buttons_cell', 3, {
+add_button('hold_option_buttons_cell', 4, {
     "this_class" : "option_button",
     "text" : "VISUAL 3"
 })
@@ -140,61 +167,74 @@ add_layout('sections', 1, {
     "this_class" : "section_1_visuals",
     "row_class" : "section_1_visuals_row",
     "cell_class" : "section_1_visuals_cell",
-    "number_of_columns" : 3,
+    "number_of_columns" : 2,
     "number_of_rows" : 1
 })
 
 style_layout('section_1_visuals', 1, {
-    "column_widths" : ['20%', '50%', '30%'],
+    "column_widths" : ['70%', '30%'],
     "border" : 0
 })
 
-add_dropdown('section_1_visuals_cell', 1, {
-    "this_class" : "select_passenger",
-    "title" : "select passenger...",
-    "options" : ['bar_data_a','bar_data_b','bar_data_c', 'bar_data_d']
+style_layout('section_1_visuals_cell', 2, {
+    "halign" : "center",
+    "valign" : "center"
 })
 
-style_dropdown('select_passenger', 1, {
-    "width" : "200px"
-})
-
-add_event('select_passenger', 1, {
-    "type" : "change",
-    "function" : "$('.bar_chart_frame')[0].contentWindow.draw_chart(eval(this.value)); toggle_functions('smile_one()', 'smile_two()')"
-})
-/*
-add_text('section_1_visuals_cell', 2, {
-    "this_class" : "profile_viz_title",
-    "text" : "PASSENGER PROFILE"
-})
-
-style_text('profile_viz_title', 1, {
-    "color" : "white",
-    "font-size" : "20px"
-})
-*/
-
-add_iframe("section_1_visuals_cell", 2, {
+add_iframe("section_1_visuals_cell", 1, {
 	"this_class" : "bar_chart_frame",
 	"source" : "d3/bar_chart.html"
 })
 style_iframe('bar_chart_frame', 1, {
-    "width" : "100%",
-    "margin-left" : "50px"
+    "width" : "100%"
 })
 $(".bar_chart_frame")[0].setAttribute("scrolling", "no");
 
-add_image('section_1_visuals_cell', 3, {
+add_layout('section_1_visuals_cell', 2, {
+    "this_class" : "hold_details",
+    "row_class" : "hold_details_row",
+    "cell_class" : "hold_details_cell",
+    "number_of_columns" : 3,
+    "number_of_rows" : 1
+})
+
+style_layout('hold_details', 1, {
+    "column_widths" : ['50%', '50%'],
+    "width" : "auto",
+    "border" : 1
+})
+
+all_style_layout('hold_details_cell', {
+    "halign" : "center",
+    "valign" : "top"
+})
+
+
+
+
+
+add_text('hold_details_cell', 3, {
+    "this_class" : "deets_title",
+    "text" : "SURVIVORSHIP"
+})
+
+all_style_text('deets_title', {
+    "color" : "white"
+})
+
+
+add_image('hold_details_cell', 3, {
     "this_class" : "show_smiles",
     "image_path" : "img/smile_1.png"
 })
 
 style_image('show_smiles', 1, {
-    "width" : "180px"
+    "width" : "130px",
+    "margin-top" : "30px"
 })
 
 // *********** SECTION 2
+
 
 clone_layout("sections", 2, {
     "copy_class" : "hold_section_title",
@@ -220,7 +260,7 @@ clone_layout("sections", 2, {
     })
 
 style_layout('section_2_visuals', 1, {
-    "border" : 0
+    "border" : 1
 })
 
 delay_event({
@@ -230,6 +270,33 @@ style_layout('section_2_visuals_cell', 1, {
     "halign" : "center"
 })
 `
+})
+
+add_button('hold_option_buttons_cell', 5, {
+    "this_class" : "select_passenger",
+    "text" : "SELECT RANDOM PASSENGER"
+})
+
+style_button('select_passenger', 1, {
+    "width" : "auto",
+    "background" : "ivory",
+    "color" : "black",
+    "font-weight" : "bold"
+})
+
+add_event('select_passenger', 2, {
+    "type" : "click",
+    "function" : `
+        fetch_random_passenger();
+        setTimeout(function() {
+        $('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(random_passenger_data);
+        toggle_functions('smile_one()', 'smile_two()');
+        show_title();
+        show_sex();
+        show_fare();
+        }, 500)
+
+        `
 })
 
 add_event('option_button', 4, {
@@ -245,28 +312,15 @@ add_event('option_button', 6, {
     "function" : "pop_viz_modal()"
 })
 
-
 remove_element('select_passenger', 2)
-
-add_dropdown('section_2_visuals_cell', 1, {
-    "this_class" : "select_random_passenger",
-    "title" : "select random passenger...",
-    "options" : ['bar_data_a','bar_data_b','bar_data_c', 'bar_data_d']
-})
-
-style_dropdown('select_random_passenger', 1, {
-    "width" : "220px",
-    "background-color" : "white"
-})
-
-add_event('select_random_passenger', 1, {
-    "type" : "change",
-    "function" : "$('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(eval(this.value))"
-})
-
 remove_element('bar_chart_frame', 2)
+remove_element('hold_details', 2)
+remove_element('show_smiles', 2)
 
-add_iframe("section_2_visuals_cell", 2, {
+
+
+
+add_iframe("section_2_visuals_cell", 1, {
 	"this_class" : "bar_chart_frame_b",
 	"source" : "d3/bar_chart_b.html"
 })
@@ -277,13 +331,11 @@ style_iframe('bar_chart_frame_b', 1, {
 $(".bar_chart_frame_b")[0].setAttribute("scrolling", "no");
 
 
-remove_element('show_smiles', 2)
-
 style_layout('section_2_visuals_cell', 3, {
     "halign" : "center"
 })
 
-add_layout('section_2_visuals_cell', 3, {
+add_layout('section_2_visuals_cell', 2, {
     "this_class" : "hold_make_choice_buttons",
     "row_class" : "hold_make_choice_buttons_row",
     "cell_class" : "hold_make_choice_buttons_cell",
@@ -490,3 +542,14 @@ function get_answer() {
     style_text('correct_answer', 1, {'color' : 'rgb(255, 253, 5)'})
     $('.bar_chart_frame_c')[0].contentWindow.draw_chart_c(eval('all_scores[Math.floor(Math.random() * all_scores.length)]'))
 }
+
+
+// onload
+delay_event({
+"delay" : 1000,
+"function" : "click_element('select_passenger', 1)"
+})
+delay_event({
+"delay" : 1000,
+"function" : "choose_from_dropdown('select_random_passenger', 1, {'option' : 'bar_data_a'})"
+})

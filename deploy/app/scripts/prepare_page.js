@@ -4,7 +4,6 @@ load_fonts({
 
 style_body({
     "background": "rgb(85, 85, 85)",
-    //"background-image": "url('img/backdrop.jpg')",
     "font-family": "Ubuntu",
     "min-width": "1300px"
 })
@@ -60,6 +59,69 @@ style_text('title', 1, {
     "color": "white",
     "align": "center"
 })
+
+add_layout('nav_layout_cells', 3, {
+    "this_class": "users_layout",
+    "cell_class": "users_layout_cells",
+    "row_class": "users_layout_rows",
+    "number_of_rows": 1,
+    "number_of_columns": 5
+})
+
+style_layout('users_layout', 1, {
+    "height": "60px",
+    "width" : "500px",
+    "border": 0
+})
+
+all_style_layout('users_layout_cells', {
+"halign" : "center"
+})
+
+user_button_titles = ['PASSENGER', 'CREW MEMBER', 'BOAT OWNER', 'INSURER']
+call_multiple({
+"iterations" : 4,
+"function" : `
+add_button('users_layout_cells', index, {
+"this_class" : "user_buttons",
+"text" : user_button_titles[index]
+})
+all_style_button('user_buttons', {
+"background" : "rgb(246, 193, 120)",
+"color" : "black",
+"font-weight" : "bold"
+})
+add_event('user_buttons', last_class_instance('user_buttons'), {
+"type" : "click",
+"function" : "highlight_button(this.id)"
+})
+`
+})
+
+style_button('user_buttons', 1, {
+"border" : "2px solid yellow"
+})
+
+function highlight_button(id) {
+all_style_button('user_buttons', {
+"border" : "0px solid yellow"
+})
+style_button('user_buttons', get_target_instance(id), {
+"border" : "2px solid yellow"
+})
+if(get_target_instance(id) == 1) {
+$('.sections').children().css('visibility', 'visible')
+}
+if(get_target_instance(id) == 2) {
+$('.sections').children().css('visibility', 'hidden')
+}
+if(get_target_instance(id) == 3) {
+$('.sections').children().css('visibility', 'hidden')
+}
+if(get_target_instance(id) == 4) {
+$('.sections').children().css('visibility', 'hidden')
+}
+}
 
 add_spa({
     "this_class" : "sections",

@@ -1,3 +1,6 @@
+//root_url = "http://localhost:9090/get_random_passenger"
+root_url = "http://104.236.231.30:9090/get_random_passenger"
+
         /*
         bar_data_a = [{
                 "name": "PASSENGER AGE",
@@ -101,7 +104,7 @@ family_size_data = []
 fare_data = []
 
 call_api({
-    "url" : "http://localhost:9090/get_random_passenger",
+    "url" : root_url,
     "parameters" : '{}',
     "done" : `
 

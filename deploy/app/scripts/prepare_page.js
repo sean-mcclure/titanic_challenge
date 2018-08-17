@@ -5,7 +5,7 @@ load_fonts({
 style_body({
     "background": "rgb(85, 85, 85)",
     "font-family": "Ubuntu",
-    "min-width": "1300px"
+    "min-width": "1000px"
 })
 
 add_navigation_bar({
@@ -168,7 +168,7 @@ add_layout('hold_section_title_cell', 2, {
 
 style_layout('hold_option_buttons', 1, {
     "height" : "auto",
-    "width" : "auto",
+    "width" : "580px",
     "border" : 0
 })
 
@@ -263,7 +263,7 @@ add_layout('section_1_visuals_cell', 2, {
 style_layout('hold_details', 1, {
     "column_widths" : ['50%', '50%'],
     "width" : "auto",
-    "border" : 1
+    "border" : 0
 })
 
 all_style_layout('hold_details_cell', {
@@ -281,7 +281,8 @@ add_text('hold_details_cell', 3, {
 })
 
 all_style_text('deets_title', {
-    "color" : "white"
+    "color" : "white",
+    "margin-top" : "30px"
 })
 
 
@@ -322,7 +323,7 @@ clone_layout("sections", 2, {
     })
 
 style_layout('section_2_visuals', 1, {
-    "border" : 1
+    "border" : 0
 })
 
 delay_event({
@@ -339,23 +340,24 @@ add_button('hold_option_buttons_cell', 5, {
     "text" : "SELECT RANDOM PASSENGER"
 })
 
-style_button('select_passenger', 1, {
+
+delay_event({
+"delay" : 1000,
+"function" :  `
+style_button('select_passenger', 2, {
     "width" : "auto",
     "background" : "ivory",
     "color" : "black",
     "font-weight" : "bold"
 })
+`
+})
 
 add_event('select_passenger', 2, {
     "type" : "click",
     "function" : `
-        fetch_random_passenger();
         setTimeout(function() {
         $('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(random_passenger_data);
-        toggle_functions('smile_one()', 'smile_two()');
-        show_title();
-        show_sex();
-        show_fare();
         }, 500)
 
         `
@@ -605,13 +607,25 @@ function get_answer() {
     $('.bar_chart_frame_c')[0].contentWindow.draw_chart_c(eval('all_scores[Math.floor(Math.random() * all_scores.length)]'))
 }
 
+function show_arrow_point() {
+add_icon('hold_option_buttons_cell', 1, {
+"this_class" : "arrow_right",
+"icon_class" : "fa-arrow-right"
+})
+style_icon('arrow_right', 1, {
+"color" : "white",
+"font-size" : "20px"
+})
+animate_element('arrow_right', 1, {'type' : 'rubberBand', 'iterations' : 'infinite'})
+move_up_down('arrow_right', 1, 'up')
+}
 
 // onload
 delay_event({
-"delay" : 1000,
-"function" : "click_element('select_passenger', 1)"
+"delay" : 2000,
+"function" : "click_element('select_passenger', 1); show_arrow_point()"
 })
 delay_event({
-"delay" : 1000,
-"function" : "choose_from_dropdown('select_random_passenger', 1, {'option' : 'bar_data_a'})"
+"delay" : 2000,
+"function" : "click_element('select_passenger', 2)"
 })

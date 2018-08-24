@@ -54,6 +54,8 @@
 
         $('svg').remove()
 
+        //bar_data = [{name: "survived", value: 20}, {name: "sibsp", value: 40}, {name: "parch", value: 30}]
+
         //sort bars based on value
         data = bar_data.sort(function (a, b) {
             return d3.ascending(a.value, b.value);

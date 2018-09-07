@@ -5,7 +5,7 @@ load_fonts({
 style_body({
     "background": "rgb(85, 85, 85)",
     "font-family": "Ubuntu",
-    "min-width": "1000px"
+    "min-width": "1200px"
 })
 
 add_navigation_bar({
@@ -49,15 +49,34 @@ style_image('logo', 1, {
     "width" : "60px"
 })
 
+animate_element('logo', 1, {
+    "type" : "spin",
+    "iterations" : "infinite",
+    "speed" : 3000
+})
+
 add_text('nav_layout_cells', 2, {
     "this_class": "title",
     "text": "LIFESAVER"
 })
 
+add_text('nav_layout_cells', 2, {
+    "this_class": "title",
+    "text": "by SkunkWorks"
+})
+
 style_text('title', 1, {
     "font-size": "30px",
     "color": "white",
-    "align": "center"
+    "align": "center",
+    "font-style" : "italic"
+})
+
+style_text('title', 2, {
+   "font-size": "20px",
+   "color": "white",
+    "align": "center",
+    "color" : "orange"
 })
 
 add_layout('nav_layout_cells', 3, {
@@ -78,7 +97,7 @@ all_style_layout('users_layout_cells', {
 "halign" : "center"
 })
 
-user_button_titles = ['PASSENGER', 'CREW MEMBER', 'BOAT OWNER', 'INSURER']
+user_button_titles = ['PASSENGER', 'CREW MEMBER', 'INSURER', 'BOAT OWNER']
 call_multiple({
 "iterations" : 4,
 "function" : `
@@ -87,9 +106,11 @@ add_button('users_layout_cells', index, {
 "text" : user_button_titles[index]
 })
 all_style_button('user_buttons', {
-"background" : "rgb(246, 193, 120)",
+"background" : "rgb(254, 225, 180)",
 "color" : "black",
-"font-weight" : "bold"
+"font-weight" : "bold",
+"border" : "1px solid black",
+"font-size" : "16px"
 })
 add_event('user_buttons', last_class_instance('user_buttons'), {
 "type" : "click",
@@ -101,27 +122,6 @@ add_event('user_buttons', last_class_instance('user_buttons'), {
 style_button('user_buttons', 1, {
 "border" : "2px solid yellow"
 })
-
-function highlight_button(id) {
-all_style_button('user_buttons', {
-"border" : "0px solid yellow"
-})
-style_button('user_buttons', get_target_instance(id), {
-"border" : "2px solid yellow"
-})
-if(get_target_instance(id) == 1) {
-$('.sections').children().css('visibility', 'visible')
-}
-if(get_target_instance(id) == 2) {
-$('.sections').children().css('visibility', 'hidden')
-}
-if(get_target_instance(id) == 3) {
-$('.sections').children().css('visibility', 'hidden')
-}
-if(get_target_instance(id) == 4) {
-$('.sections').children().css('visibility', 'hidden')
-}
-}
 
 add_spa({
     "this_class" : "sections",
@@ -187,9 +187,10 @@ style_button('select_passenger', 1, {
 add_event('select_passenger', 1, {
     "type" : "click",
     "function" : `
+        animate_element('select_passenger', 1, {'type' : 'spin'})
         fetch_random_passenger();
         setTimeout(function() {
-        $('.bar_chart_frame')[0].contentWindow.draw_chart(random_passenger_data);
+        $('.bar_chart_frame')[0].contentWindow.draw_chart(show_chart())
         toggle_functions('smile_one()', 'smile_two()');
         show_title();
         show_sex();
@@ -262,7 +263,8 @@ add_layout('section_1_visuals_cell', 2, {
 
 style_layout('hold_details', 1, {
     "column_widths" : ['50%', '50%'],
-    "width" : "auto",
+    "width": "500px",
+    "margin-right" : "50px",
     "border" : 0
 })
 
@@ -270,10 +272,6 @@ all_style_layout('hold_details_cell', {
     "halign" : "center",
     "valign" : "top"
 })
-
-
-
-
 
 add_text('hold_details_cell', 3, {
     "this_class" : "deets_title",
@@ -285,6 +283,18 @@ all_style_text('deets_title', {
     "margin-top" : "30px"
 })
 
+add_image('hold_details_cell', 2, {
+    "this_class" : "ticket",
+    "image_path" : "img/ticket.png"
+})
+
+style_image('ticket', 1, {
+    "width" : "120px"
+})
+
+style_layout('hold_details_cell', 2, {
+    "valign" : "center"
+})
 
 add_image('hold_details_cell', 3, {
     "this_class" : "show_smiles",
@@ -356,8 +366,12 @@ style_button('select_passenger', 2, {
 add_event('select_passenger', 2, {
     "type" : "click",
     "function" : `
+        animate_element('select_passenger', 2, {'type' : 'spin'})
         setTimeout(function() {
-        $('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(random_passenger_data);
+        $('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(show_chart());
+        remove_element('showing_user_choices', 1)
+        remove_element('ai_choice', 1)
+        remove_element('correct_answer', 1)
         }, 500)
 
         `
@@ -481,7 +495,7 @@ style_button('hold_make_choice_button', 4, {
 })
 add_event('hold_make_choice_button', 4, {
 "type" : "click",
-"function" : "animate_element('hold_make_choice_button', 4, {'type' : 'rubberBand'}); get_answer()"
+"function" : "get_answer()"
 })
 style_layout('hold_make_choice_buttons_cell', 1, {
 "background" : "grey"
@@ -550,8 +564,8 @@ $(".bar_chart_frame_c")[0].setAttribute("scrolling", "no");
 
 // *********** ALL_ STYLES
 all_style_text('section_title', {
-    "color" : "white",
-    "font-size" : "24px"
+    "font-size" : "22px",
+    "color" : "rgb(254, 245, 157)"
 })
 all_style_layout("hold_option_buttons_cell", {
     "halign" : "center"
@@ -589,25 +603,41 @@ function smile_two() {
     $('.show_smiles').attr('src', 'img/smile_2.png')
     }
 
+global_ai_clicked = ''
 function make_prediction() {
     if(global_choice_clicked !== '') {
     animate_element('hold_make_choice_button', 3, {'type' : 'lightSpeedOut'})
+    add_spinner({'speed' : 1000, 'duration' : 1000})
     remove_element('ai_choice', 1);
     add_text('show_choices_layout_cells', 2, {'this_class' : 'ai_choice', 'text' : '???'});
     style_text('ai_choice', 1, {'color' : 'rgb(255, 253, 5)'})
+    global_ai_clicked = 'yes'
     } else {
     alert('make a choice first')
     }
 }
 function get_answer() {
+    one_zero = Math.round(Math.random())
+    if(one_zero == 0) {
+    use_answer = 'SURVIVED'
+    } else {
+    use_answer = 'NOT SURVIVED'
+    }
+    if(global_choice_clicked !== '' && global_ai_clicked !== '') {
     global_choice_clicked = ''
     remove_element('correct_answer', 1);
-    add_text('show_choices_layout_cells', 3, {'this_class' : 'correct_answer', 'text' : '???'});
+    add_text('show_choices_layout_cells', 3, {'this_class' : 'correct_answer', 'text' : use_answer});
     style_text('correct_answer', 1, {'color' : 'rgb(255, 253, 5)'})
     $('.bar_chart_frame_c')[0].contentWindow.draw_chart_c(eval('all_scores[Math.floor(Math.random() * all_scores.length)]'))
+    animate_element('hold_make_choice_button', 4, {'type' : 'rubberBand'});
+    show_arrow_point_b()
+} else {
+alert('make a choice and ask AI')
+}
 }
 
 function show_arrow_point() {
+remove_element('arrow_right', 1)
 add_icon('hold_option_buttons_cell', 1, {
 "this_class" : "arrow_right",
 "icon_class" : "fa-arrow-right"
@@ -620,6 +650,20 @@ animate_element('arrow_right', 1, {'type' : 'rubberBand', 'iterations' : 'infini
 move_up_down('arrow_right', 1, 'up')
 }
 
+function show_arrow_point_b() {
+remove_element('arrow_right', 2)
+add_icon('hold_option_buttons_cell', 5, {
+"this_class" : "arrow_right",
+"icon_class" : "fa-arrow-right"
+})
+style_icon('arrow_right', 2, {
+"color" : "white",
+"font-size" : "20px"
+})
+animate_element('arrow_right', 2, {'type' : 'rubberBand', 'iterations' : 'infinite'})
+move_up_down('arrow_right', 2, 'up')
+}
+
 // onload
 delay_event({
 "delay" : 2000,
@@ -629,3 +673,8 @@ delay_event({
 "delay" : 2000,
 "function" : "click_element('select_passenger', 2)"
 })
+delay_event({
+"delay" : 2000,
+"function" : "show_arrow_point_b()"
+})
+

@@ -3,10 +3,10 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>Simple Bar chart</title>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='http://code.jquery.com/jquery-3.3.1.min.js'></script>
-    <script src='http://worldofdatascience.com/kedion.min.js'></script>
+    <!--<script src='http://worldofdatascience.com/kedion.min.js'></script>-->
+    <script src="../../../../../Kedion/main.js"></script>
     <style>
 
         body {
@@ -15,7 +15,7 @@
         }
 
         .bar {
-            fill: rgb(254, 225, 180);
+            fill: rgb(255, 176, 108);
         }
 
         text {
@@ -50,11 +50,14 @@
             "font": "Ubuntu"
         })
 
-        function draw_chart(bar_data) {
+        function draw_visual() {
 
-        $('svg').remove()
+        kedion_args = arguments[0]
 
-        //bar_data = [{name: "survived", value: 20}, {name: "sibsp", value: 40}, {name: "parch", value: 30}]
+        //bar_data = [{name: "PACKAGE 1", value: 100}, {name: "PACKAGE 2", value: 80}, {name: "PACKAGE 3", value: 60}, {name: "PACKAGE 4", value: 40}, {name: "PACKAGE 5", value: 20}, {name: "PACKAGE 6", value: 10}, {name: "PACKAGE 7", value: 1}]
+
+
+        bar_data = kedion_args['data_choice']
 
         //sort bars based on value
         data = bar_data.sort(function (a, b) {
@@ -63,16 +66,16 @@
 
         //set up svg using margin conventions - we'll need plenty of room on the left for labels
         var margin = {
-            top: 15,
-            right: 70,
-            bottom: 15,
-            left: 60
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: kedion_args['left_choice']
         };
 
-        var width = 700 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
+        var width = kedion_args['chart_width'] - margin.left - margin.right,
+            height = kedion_args['chart_height'] - margin.top - margin.bottom;
 
-        var svg = d3.select("#graphic").append("svg")
+        var svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")

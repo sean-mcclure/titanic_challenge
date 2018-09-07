@@ -49,15 +49,34 @@ style_image('logo', 1, {
     "width" : "60px"
 })
 
+animate_element('logo', 1, {
+    "type" : "spin",
+    "iterations" : "infinite",
+    "speed" : 3000
+})
+
 add_text('nav_layout_cells', 2, {
     "this_class": "title",
     "text": "LIFESAVER"
 })
 
+add_text('nav_layout_cells', 2, {
+    "this_class": "title",
+    "text": "by SkunkWorks"
+})
+
 style_text('title', 1, {
     "font-size": "30px",
     "color": "white",
-    "align": "center"
+    "align": "center",
+    "font-style" : "italic"
+})
+
+style_text('title', 2, {
+   "font-size": "20px",
+   "color": "white",
+    "align": "center",
+    "color" : "orange"
 })
 
 add_layout('nav_layout_cells', 3, {
@@ -87,9 +106,11 @@ add_button('users_layout_cells', index, {
 "text" : user_button_titles[index]
 })
 all_style_button('user_buttons', {
-"background" : "rgb(246, 193, 120)",
+"background" : "rgb(254, 225, 180)",
 "color" : "black",
-"font-weight" : "bold"
+"font-weight" : "bold",
+"border" : "1px solid black",
+"font-size" : "16px"
 })
 add_event('user_buttons', last_class_instance('user_buttons'), {
 "type" : "click",
@@ -166,6 +187,7 @@ style_button('select_passenger', 1, {
 add_event('select_passenger', 1, {
     "type" : "click",
     "function" : `
+        animate_element('select_passenger', 1, {'type' : 'spin'})
         fetch_random_passenger();
         setTimeout(function() {
         $('.bar_chart_frame')[0].contentWindow.draw_chart(show_chart())
@@ -235,13 +257,13 @@ add_layout('section_1_visuals_cell', 2, {
     "this_class" : "hold_details",
     "row_class" : "hold_details_row",
     "cell_class" : "hold_details_cell",
-    "number_of_columns" : 2,
+    "number_of_columns" : 3,
     "number_of_rows" : 1
 })
 
 style_layout('hold_details', 1, {
     "column_widths" : ['50%', '50%'],
-    "width": "320px",
+    "width": "500px",
     "margin-right" : "50px",
     "border" : 0
 })
@@ -251,7 +273,7 @@ all_style_layout('hold_details_cell', {
     "valign" : "top"
 })
 
-add_text('hold_details_cell', 2, {
+add_text('hold_details_cell', 3, {
     "this_class" : "deets_title",
     "text" : "SURVIVORSHIP"
 })
@@ -261,8 +283,20 @@ all_style_text('deets_title', {
     "margin-top" : "30px"
 })
 
-
 add_image('hold_details_cell', 2, {
+    "this_class" : "ticket",
+    "image_path" : "img/ticket.png"
+})
+
+style_image('ticket', 1, {
+    "width" : "120px"
+})
+
+style_layout('hold_details_cell', 2, {
+    "valign" : "center"
+})
+
+add_image('hold_details_cell', 3, {
     "this_class" : "show_smiles",
     "image_path" : "img/smile_1.png"
 })
@@ -332,6 +366,7 @@ style_button('select_passenger', 2, {
 add_event('select_passenger', 2, {
     "type" : "click",
     "function" : `
+        animate_element('select_passenger', 2, {'type' : 'spin'})
         setTimeout(function() {
         $('.bar_chart_frame_b')[0].contentWindow.draw_chart_b(show_chart());
         remove_element('showing_user_choices', 1)
@@ -529,8 +564,8 @@ $(".bar_chart_frame_c")[0].setAttribute("scrolling", "no");
 
 // *********** ALL_ STYLES
 all_style_text('section_title', {
-    "color" : "white",
-    "font-size" : "24px"
+    "font-size" : "22px",
+    "color" : "rgb(254, 245, 157)"
 })
 all_style_layout("hold_option_buttons_cell", {
     "halign" : "center"
